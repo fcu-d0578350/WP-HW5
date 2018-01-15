@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<head>
+  <style>
+    #map {
+     width: 100%;
+     height: 400px;
+     background-color: grey;
+    }
+  </style>
+</head>
+<body>
+  <h1>My Google Map Demo</h1>
+  <div id="map"></div>
+  <script>
+    var postoffice=['台中福安郵局台中69支局', '台中永安郵局', '臺中榮總郵局',
+    '東海大學郵局', '台中工業區郵局台中46支局', '台中西屯郵局','臺中逢甲郵局',
+    '台中水湳郵局', '台中何厝郵局', '台中大隆路郵局'
+    ];
+    var postofficeLatLng=['24.184888, 120.618372',
+    '24.192718, 120.612649', '24.186752, 120.604066', '24.181035, 120.601750',
+    '24.171464, 120.606654', '24.178176, 120.637310', '24.177057, 120.649845',
+    '24.180538, 120.669056', '24.167113, 120.653932', '24.158660, 120.652434'
+    ];
+    function initMap(){
+      var post = {lat: 24.176901, lng: 120.641640};
+      var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 15,
+        center: post
+      });
+
+      for(var i=0;i<postoffice.length;i++){
+          var latLng=postofficeLatLng[i].split(",");
+          var position={lat:parseFloat(latLng[0]),lng:parseFloat(latLng[1])};
+
+            var marker = new google.maps.Marker({
+            position: position,
+            map: map,
+            icon: "./postoffice.png"
+            });
+            marker.addListener('mouseover',function(){
+                infowindow.open(map, marker);
+                map.setCenter(marker.getPosition());
+            });
+            var infowindow = new google.maps.InfoWindow({
+              content: '<div> <h3>'+postoffice[i]+'</h3> </div>'
+            });
+    }
+    </script>
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAyEEMeoektNjF0MWRFt-73kZqZ-RyFKnM&callback=initMap">
+  </script>
+  </body>
+</html>
